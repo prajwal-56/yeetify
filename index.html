@@ -20,13 +20,26 @@
     </div>
 
     <script>
-        async function render_file_list(){
-            const response = await fetch("/uploads")
+
+    // web socket things
+    const socket = new WebSocket(`ws://${window.location.host}/websocket`); // init handhsake - to form a socket with the server and stays open
+    socket.onmessage = (msg) => {
+        if(msg.data === "new_file_appeared"){
+            render_file_list();
+        } else if( msg.data === "yeet"){
+            // broadcast_yeet(); // - just pings everyone or notify or something to every clients
+        }
+    }
+
+
+    async function render_file_list(){
+            const response = await fetch("/files")
             const response_json = await response.json()
 
             console.log(response_json)
 
-            const fileList_container = document.getElementById('file-list')
+            const fileList_container = document.getElementById('file-list');
+            fileList_container.innerHTML = "";
 
             const files_ul = document.createElement('ul');
 
