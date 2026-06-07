@@ -6,7 +6,9 @@ import os
 
 app = FastAPI()
 
-app.mount("/attachments" , StaticFiles(directory="attachments"), name="attachments")
+app.mount("/attachments" , StaticFiles(directory="attachments"), name="attachments") # attachments for the web
+app.mount("/uploads" , StaticFiles(directory="uploads") , name="uploads")    # for downloading
+
 uploaded_files_path = "./uploads/"
 
 

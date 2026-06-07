@@ -28,11 +28,20 @@
 
             const fileList_container = document.getElementById('file-list')
 
+            const files_ul = document.createElement('ul');
+
             response_json.forEach(filename => {
                 const li = document.createElement('li');
-                li.textContent = filename;
-                fileList_container.append(li)
+                const link = document.createElement('a');
+                link.href = `/download/${filename}`;
+                link.textContent = filename;
+                link.setAttribute('download' , filename);
+
+                li.append(link);
+                files_ul.append(li)
             });
+
+            fileList_container.append(files_ul);
         }
 
         render_file_list();
