@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi import File , UploadFile
+
 import os
 
 app = FastAPI()
@@ -9,7 +11,7 @@ app = FastAPI()
 app.mount("/attachments" , StaticFiles(directory="attachments"), name="attachments") # attachments for the web
 app.mount("/uploads" , StaticFiles(directory="uploads") , name="uploads")    # for downloading
 
-uploaded_files_path = "./uploads/"
+uploaded_files_path = "uploads/"
 
 
 @app.get("/")
@@ -36,6 +38,13 @@ async def upload_item(file: UploadFile = File(...)):
 async def get_list():
 
     return os.listdir(uploaded_files_path)
+
+
+# to download
+@app.get("/download/{filename}")
+async def give(filename :str):
+    return FileResponse(path="uploads/" + filename , filename=filename)
+
 
 @app.post("/something")
 async def post_something():
