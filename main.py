@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from fastapi.responses import FileResponse
+from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi import File , UploadFile
 from fastapi import WebSocket
@@ -30,7 +31,7 @@ async def socket_endpoint(websocket: WebSocket):
 
 @app.get("/")
 async def root():
-    return {"message" : "Hello World"}
+    return RedirectResponse("/yeet")
 
 @app.get("/yeet" , response_class=HTMLResponse)
 async def root():
