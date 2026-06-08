@@ -6,6 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi import File , UploadFile
 from fastapi import WebSocket
 import os
+from utils import get_local_ip 
 
 app = FastAPI()
 
@@ -81,3 +82,9 @@ async def delete(filename: str):
 @app.post("/something")
 async def post_something():
     return {"message" : "this does something"}
+
+
+# to get the ip 
+@app.get("/local_ip")
+async def local_ip(): 
+    return {"ip": get_local_ip()}
