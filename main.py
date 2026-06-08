@@ -87,4 +87,4 @@ async def post_something():
 # to get the ip 
 @app.get("/local_ip")
 async def local_ip(): 
-    return {"ip": get_local_ip()}
+    return {"ip": f"{get_local_ip()}"}
