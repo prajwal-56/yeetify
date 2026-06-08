@@ -11,7 +11,7 @@ app = FastAPI()
 
 app.mount("/attachments" , StaticFiles(directory="attachments"), name="attachments") # attachments for the web
 app.mount("/uploads" , StaticFiles(directory="uploads") , name="uploads")    # for downloading
-app.mount("/static" , StaticFiles(directory=".") , name="static")    # for every static file
+app.mount("/static" , StaticFiles(directory="./static") , name="static")    # for every static file
 
 uploaded_files_path = "uploads/"
 
@@ -36,7 +36,7 @@ async def root():
 
 @app.get("/yeet" , response_class=HTMLResponse)
 async def root():
-    return open("index.html").read()
+    return open("static/index.html").read()
 
 
 # when uploading ...
