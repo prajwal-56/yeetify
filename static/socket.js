@@ -1,4 +1,4 @@
-import { render_file_list, delete_file } from "./ui,js";
+import { render_file_list, delete_file } from "./ui.js";
 
 // web socket things
 export function init_socket(){
