@@ -11,6 +11,7 @@ app = FastAPI()
 
 app.mount("/attachments" , StaticFiles(directory="attachments"), name="attachments") # attachments for the web
 app.mount("/uploads" , StaticFiles(directory="uploads") , name="uploads")    # for downloading
+app.mount("/static" , StaticFiles(directory=".") , name="static")    # for every static file
 
 uploaded_files_path = "uploads/"
 
@@ -66,6 +67,16 @@ async def get_list():
 async def give(filename :str):
     return FileResponse(path="uploads/" + filename , filename=filename)
 
+# deleting 
+@app.delete("/delete/{filename}")
+async def delete(filename: str):
+    os.remove( os.path.join(uploaded_files_path , filename) )
+
+    # to update the file list
+    for connection in connections:
+        await connection.send_text("file_removed")
+
+    return {"status" : "deleted {filename}"}
 
 @app.post("/something")
 async def post_something():
