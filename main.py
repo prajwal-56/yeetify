@@ -118,7 +118,7 @@ async def text(request: Request , message: TextMessage):
     
     # broadcast new message arrival :
     for connection in connections:
-        await connection.send_text("new_message_appeared")
+        await connection.send_text("new_message")
 
     return {"status" : 200 , "ip" : ip , "message" : message}
 
