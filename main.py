@@ -5,6 +5,9 @@ from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi import File , UploadFile
 from fastapi import WebSocket
+from fastapi import Request
+from pydantic import BaseModel
+import json
 import os
 from utils import get_local_ip 
 
@@ -15,9 +18,14 @@ app.mount("/uploads" , StaticFiles(directory="uploads") , name="uploads")    # f
 app.mount("/static" , StaticFiles(directory="./static") , name="static")    # for every static file
 
 uploaded_files_path = "uploads/"
+message_dir = "messages/"
+messages_filename = "messages.json"
 
 # holds the list of connected devices
 connections = []
+
+class TextMessage(BaseModel):
+    text: str
 
 
 @app.websocket("/websocket")
@@ -78,6 +86,35 @@ async def delete(filename: str):
         await connection.send_text("file_removed")
 
     return {"status" : "deleted {filename}"}
+
+
+# text sharing mehod
+@app.post("/share-text")
+async def text(request: Request , message: TextMessage):
+    ip = request.client.host
+
+    print(f"ip : {ip}\t request: {request} \nmessage : {message}")
+    
+    os.makedirs(message_dir , exist_ok=True)
+    messages_files_path = os.path.join(message_dir , messages_filename)
+
+    # creates the json file if non-existent
+    if( os.path.exists(messages_files_path) ):
+        with open(messages_files_path , "r") as msg_json:
+            data = json.load(msg_json)      # Loads the existing content from the json file
+    else:
+        data = {}   # if the messages.json file doesn't exist - starts new 
+        with open(messages_files_path , "w") as msg_json:
+            json.dump(data , msg_json)
+
+
+    # Write the new message to the json file
+    data[ip] = message.text
+    with open(messages_files_path , "w") as msg_json:
+        json.dump(data , msg_json)
+
+    return {"status" : 200 , "ip" : ip , "message" : message}
+
 
 @app.post("/something")
 async def post_something():
