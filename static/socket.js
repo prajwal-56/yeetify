@@ -1,4 +1,4 @@
-import { render_file_list, delete_file } from "./ui.js";
+import { render_file_list, delete_file, render_message_list } from "./ui.js";
 
 // web socket things
 export function init_socket(){
@@ -6,6 +6,8 @@ export function init_socket(){
         socket.onmessage = (msg) => {
             if(msg.data === "new_file_appeared" || msg.data == "file_removed"){
                 render_file_list();
+            } else if( msg.data === "new_message" || msg.data === "message_removed"){
+                render_message_list();
             } else if( msg.data === "yeet"){
                 // broadcast_yeet(); // - just pings everyone or notify or something to every clients
             }

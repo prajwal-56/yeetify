@@ -48,3 +48,30 @@ export async function render_file_list(){
 
     fileList_container.append(files_ul);
 }
+
+export async function render_message_list(){
+    const response = await fetch("/messages");
+    const response_json = await response.json();
+
+    const message_container = document.getElementById('message-list');
+    message_container.innerHTML = "";
+
+    const messages_ul = document.createElement('ul');
+    response_json.forEach(msg => {
+        const li = document.createElement('li');
+        const cpy_btn = document.createElement('button');
+        const text = document.createElement('span');
+
+        cpy_btn.innerHTML = `copy`;
+        cpy_btn.className="copy-content-btn";
+
+        text.textContent = `${msg.ip} : ${msg.message}`;
+
+        li.append(text);
+        li.append(cpy_btn);
+        messages_ul.append(li);
+    })
+
+    message_container.append(messages_ul)
+
+}

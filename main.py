@@ -94,8 +94,6 @@ async def delete(filename: str):
 async def text(request: Request , message: TextMessage):
     ip = request.client.host
     now = datetime.now().isoformat()
-
-    print(f"ip : {ip}\t request: {request} \nmessage : {message}")
     
 
     os.makedirs(message_dir , exist_ok=True)
@@ -117,7 +115,19 @@ async def text(request: Request , message: TextMessage):
         data.append( {"ip":ip , "message" : message.text , "time" : now} )
         json.dump(data , msg_json)
 
+    
+    # broadcast new message arrival :
+    for connection in connections:
+        await connection.send_text("new_message_appeared")
+
     return {"status" : 200 , "ip" : ip , "message" : message}
+
+
+# to return the messages 
+@app.get("/get_message_list")
+async def get_message_list():
+
+    return os.system("cat messages/messages.json")
 
 
 @app.post("/something")
