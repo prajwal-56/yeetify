@@ -7,6 +7,7 @@ export function init_socket(){
             if(msg.data === "new_file_appeared" || msg.data == "file_removed"){
                 render_file_list();
             } else if( msg.data === "new_message" || msg.data === "message_removed"){
+                console.log("New message received !!! this is from websockets ")
                 render_message_list();
             } else if( msg.data === "yeet"){
                 // broadcast_yeet(); // - just pings everyone or notify or something to every clients

@@ -111,8 +111,8 @@ async def text(request: Request , message: TextMessage):
 
 
     # Write the new message to the json file
+    data.append( {"ip":ip , "message" : message.text , "time" : now} )
     with open(messages_files_path , "w") as msg_json:
-        data.append( {"ip":ip , "message" : message.text , "time" : now} )
         json.dump(data , msg_json)
 
     
@@ -124,11 +124,18 @@ async def text(request: Request , message: TextMessage):
 
 
 # to return the messages 
-@app.get("/get_message_list")
+@app.get("/messages")
 async def get_message_list():
 
-    return os.system("cat messages/messages.json")
+    messages_files_path = os.path.join(message_dir , messages_filename)
 
+    # if directory or the file doesn't exist , returns an empty list 
+    if not os.path.exists(messages_files_path): 
+        return []
+
+    # giving out the messages.json file 
+    with open(messages_files_path , "r") as json_file:
+        return json.load(json_file)
 
 @app.post("/something")
 async def post_something():
