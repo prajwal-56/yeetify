@@ -7,6 +7,7 @@ from fastapi import File , UploadFile
 from fastapi import WebSocket
 from fastapi import Request
 from pydantic import BaseModel
+from datetime import datetime
 import json
 import os
 from utils import get_local_ip 
@@ -92,9 +93,11 @@ async def delete(filename: str):
 @app.post("/share-text")
 async def text(request: Request , message: TextMessage):
     ip = request.client.host
+    now = datetime.now().isoformat()
 
     print(f"ip : {ip}\t request: {request} \nmessage : {message}")
     
+
     os.makedirs(message_dir , exist_ok=True)
     messages_files_path = os.path.join(message_dir , messages_filename)
 
@@ -103,14 +106,15 @@ async def text(request: Request , message: TextMessage):
         with open(messages_files_path , "r") as msg_json:
             data = json.load(msg_json)      # Loads the existing content from the json file
     else:
-        data = {}   # if the messages.json file doesn't exist - starts new 
+        data = []   # if the messages.json file doesn't exist - starts new 
         with open(messages_files_path , "w") as msg_json:
+            # data.append( {"ip":ip , "message" : message.text , "time" : now} )
             json.dump(data , msg_json)
 
 
     # Write the new message to the json file
-    data[ip] = message.text
     with open(messages_files_path , "w") as msg_json:
+        data.append( {"ip":ip , "message" : message.text , "time" : now} )
         json.dump(data , msg_json)
 
     return {"status" : 200 , "ip" : ip , "message" : message}
