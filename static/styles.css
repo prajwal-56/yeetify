@@ -1,15 +1,72 @@
 .remove-file-btn {
-    color:red;
-    padding:5px;
-    margin-left:5px;
-    border:2px black ;
+    color: red;
+    padding: 5px;
+    margin-left: 5px;
+    border: 2px;
 }
 
-.message-ip{
-    color:#999;
+/* message list container */
+#message-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* each message row */
+#message-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-left: 3px solid currentColor;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.95rem;
+}
+
+/* ip label */
+.message-ip {
+    font-size: 0.75rem;
     font-style: italic;
+    opacity: 0.75;
+    white-space: nowrap;
 }
 
+/* message text */
 .message-content {
-    color:rgb(173, 41, 238);
+    color: inherit;
+    flex: 1;      
+}
+
+/* copy button */
+.copy-content-btn {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+    color: #888;
+    white-space: nowrap;
+}
+
+.copy-content-btn:hover {
+    border-color: #888;
+    color: #333;
+}
+
+
+.file-entry {
+    display:flex;
+    /* align-items: center; */
+    /* gap:10px; */
+    padding: 6px;
+    border-left: 3px solid inherit;
+    border-radius: 0 6p 6px 0;
+    background: rgba(0, 0, 0, 0.04);
+
 }

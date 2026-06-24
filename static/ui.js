@@ -28,6 +28,22 @@ export async function copy_to_clipborad(cpy_btn , text){
     }
 }
 
+export function get_color_for_ip(ip){
+    let hash = 0;
+    const saturation = "70%";
+    const lightness = "56%";
+
+    for( let i = 0; i < ip.length; i++){
+        // bit wise hash calculation
+        hash = ip.charCodeAt(i) + ( (hash << 5) - hash);
+    }
+
+    const hue = Math.abs(hash) % 360;
+    console.log(` hash generated for ${ip} : ${hue} `)
+
+    return `hsl(${hue} , ${saturation} , ${lightness} )`
+}
+
 export async function render_file_list(){
 
     const response = await fetch("/files")
@@ -48,7 +64,8 @@ export async function render_file_list(){
 
         // adding Link to each file entries 
         link.href = `/download/${filename}`;
-        link.textContent = filename;
+        // link.innerHTML = `<span class="file-entry" ${filename} </span>`;
+        link.innerHTML = `<span class="file-entry"> ${filename} </span>`;
         link.setAttribute('download' , filename);
 
         // remove button
@@ -64,22 +81,6 @@ export async function render_file_list(){
     fileList_container.append(files_ul);
 }
 
-
-export function get_color_for_ip(ip){
-    let hash = 0;
-    const saturation = "70%";
-    const lightness = "56%";
-
-    for( let i = 0; i < ip.length; i++){
-        // bit wise hash calculation
-        hash = ip.charCodeAt(i) + ( (hash << 5) - hash);
-    }
-
-    const hue = Math.abs(hash) % 360;
-    console.log(` hash generated for ${ip} : ${hue} `)
-
-    return `hsl(${hue} , ${saturation} , ${lightness} )`
-}
 
 export async function render_message_list(){
     const response = await fetch("/messages");
