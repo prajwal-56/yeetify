@@ -89,6 +89,28 @@ async def delete(filename: str):
     return {"status" : "deleted {filename}"}
 
 
+
+# deleting a message
+@app.delete("/delete-message/{msg}")
+async def delete_msg(msg):
+    message_file_path = os.path.join(message_dir , messages_filename)
+
+    with open(message_file_path , "r") as msg_json:
+        data = json.load(msg_json)
+
+    # data is now contain everything in had except the one with the "msg" timestamp
+    data = [item for item in data if item["time"] != msg]
+
+    # write the new content in the file
+    with open(message_file_path , "w") as msg_json:
+        json.dump(data, msg_json , indent=2)
+
+    # broadcast message removed to every connected clients
+    for connection in connections:
+        await connection.send_text("message_removed")
+
+    return {"status" : 200 }
+
 # text sharing mehod
 @app.post("/share-text")
 async def text(request: Request , message: TextMessage):
@@ -107,7 +129,7 @@ async def text(request: Request , message: TextMessage):
         data = []   # if the messages.json file doesn't exist - starts new 
         with open(messages_files_path , "w") as msg_json:
             # data.append( {"ip":ip , "message" : message.text , "time" : now} )
-            json.dump(data , msg_json)
+            json.dump(data , msg_json , indent=2)
 
 
     # Write the new message to the json file
