@@ -13,12 +13,18 @@ export async function delete_file(filename , file_in_list){
     } 
 }
 
-export async function copy_to_clipborad(text){
+export async function copy_to_clipborad(cpy_btn , text){
     try {
         await navigator.clipboard.writeText(text);
-        alert("Text copied successfully !");
+
+        // changes the button text when "copied" and to "copy" after 5 seconds
+        cpy_btn.innerHTML = "copied !";
+
+        setTimeout( () => {
+            cpy_btn.innerHTML = "copy";
+        } , 10000 )
     } catch(err){
-        alert("failed to copy. Try again :(");
+        alert("Failed to copy for some reason ")
     }
 }
 
@@ -74,7 +80,7 @@ export async function render_message_list(){
 
         cpy_btn.innerHTML = `copy`;
         cpy_btn.className="copy-content-btn";
-        cpy_btn.onclick = () => copy_to_clipborad(msg.message);
+        cpy_btn.onclick = () => copy_to_clipborad( cpy_btn , msg.message);
 
         text.textContent = `${msg.ip} : ${msg.message}`;
 
