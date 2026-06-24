@@ -65,6 +65,22 @@ export async function render_file_list(){
 }
 
 
+export function get_color_for_ip(ip){
+    let hash = 0;
+    const saturation = "70%";
+    const lightness = "56%";
+
+    for( let i = 0; i < ip.length; i++){
+        // bit wise hash calculation
+        hash = ip.charCodeAt(i) + ( (hash << 5) - hash);
+    }
+
+    const hue = Math.abs(hash) % 360;
+    console.log(` hash generated for ${ip} : ${hue} `)
+
+    return `hsl(${hue} , ${saturation} , ${lightness} )`
+}
+
 export async function render_message_list(){
     const response = await fetch("/messages");
     const response_json = await response.json();
@@ -82,7 +98,7 @@ export async function render_message_list(){
         cpy_btn.className="copy-content-btn";
         cpy_btn.onclick = () => copy_to_clipborad( cpy_btn , msg.message);
 
-        text.innerHTML = `<span class="message-ip"> ${msg.ip}</span>  : <span class="message-content"> ${msg.message} </span>`;
+        text.innerHTML = `<span class="message-ip" style="color:${get_color_for_ip(msg.ip)};"> ${msg.ip}</span>  : <span class="message-content"> ${msg.message} </span>`;
 
         li.append(text);
         li.append(cpy_btn);
