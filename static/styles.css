@@ -4,3 +4,12 @@
     margin-left:5px;
     border:2px black ;
 }
+
+.message-ip{
+    color:#999;
+    font-style: italic;
+}
+
+.message-content {
+    color:rgb(173, 41, 238);
+}

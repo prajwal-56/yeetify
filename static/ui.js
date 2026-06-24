@@ -82,7 +82,7 @@ export async function render_message_list(){
         cpy_btn.className="copy-content-btn";
         cpy_btn.onclick = () => copy_to_clipborad( cpy_btn , msg.message);
 
-        text.textContent = `${msg.ip} : ${msg.message}`;
+        text.innerHTML = `<span class="message-ip"> ${msg.ip}</span>  : <span class="message-content"> ${msg.message} </span>`;
 
         li.append(text);
         li.append(cpy_btn);
