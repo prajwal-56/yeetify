@@ -113,14 +113,14 @@ async def text(request: Request , message: TextMessage):
     # Write the new message to the json file
     data.append( {"ip":ip , "message" : message.text , "time" : now} )
     with open(messages_files_path , "w") as msg_json:
-        json.dump(data , msg_json)
+        json.dump(data , msg_json , indent=2)
 
     
     # broadcast new message arrival :
     for connection in connections:
         await connection.send_text("new_message")
 
-    return {"status" : 200 , "ip" : ip , "message" : message}
+    return {"status" : 200 , "ip" : ip , "message" : message }
 
 
 # to return the messages 
