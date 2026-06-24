@@ -62,10 +62,12 @@ export async function render_file_list(){
         const link = document.createElement('a');
         const rm_btn = document.createElement('button');
 
+        // color the left border based on filename hash
+        li.style.borderLeftColor = get_color_for_ip(filename);
+
         // adding Link to each file entries 
         link.href = `/download/${filename}`;
-        // link.innerHTML = `<span class="file-entry" ${filename} </span>`;
-        link.innerHTML = `<span class="file-entry"> ${filename} </span>`;
+        link.textContent = filename;
         link.setAttribute('download' , filename);
 
         // remove button
@@ -94,6 +96,9 @@ export async function render_message_list(){
         const li = document.createElement('li');
         const cpy_btn = document.createElement('button');
         const text = document.createElement('span');
+
+        // color the left border to match the ip color
+        li.style.borderLeftColor = get_color_for_ip(msg.ip);
 
         cpy_btn.innerHTML = `copy`;
         cpy_btn.className="copy-content-btn";
