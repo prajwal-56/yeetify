@@ -31,7 +31,10 @@
 
 /* message text */
 .message-content {
-    color: inherit;
+    /* color: inherit; */
+    color:#555555;
+    white-space: pre-wrap;
+    font-family: monospace;
     flex: 1;      
 }
 
