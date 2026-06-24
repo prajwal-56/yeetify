@@ -13,6 +13,15 @@ export async function delete_file(filename , file_in_list){
     } 
 }
 
+export async function copy_to_clipborad(text){
+    try {
+        await navigator.clipboard.writeText(text);
+        alert("Text copied successfully !");
+    } catch(err){
+        alert("failed to copy. Try again :(");
+    }
+}
+
 export async function render_file_list(){
 
     const response = await fetch("/files")
@@ -49,6 +58,7 @@ export async function render_file_list(){
     fileList_container.append(files_ul);
 }
 
+
 export async function render_message_list(){
     const response = await fetch("/messages");
     const response_json = await response.json();
@@ -64,6 +74,7 @@ export async function render_message_list(){
 
         cpy_btn.innerHTML = `copy`;
         cpy_btn.className="copy-content-btn";
+        cpy_btn.onclick = () => copy_to_clipborad(msg.message);
 
         text.textContent = `${msg.ip} : ${msg.message}`;
 
