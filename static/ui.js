@@ -31,10 +31,24 @@ export async function remove_message(msg_timestamp , msg_in_list){
 
 export async function copy_to_clipborad(cpy_btn , text){
     try {
-        await navigator.clipboard.writeText(text);
+        
+        if(navigator.clipboard){ // if navigator.clipboard exist, use it. (probably works only on localhosts/https )
+            await navigator.clipboard.writeText(text);
+            // changes the button text when "copied" and to "copy" after 5 seconds
+            cpy_btn.innerHTML = "copied !";
+        } else {
+            // workaround if navigator.clipboard fails
+            // creates a throw away element. uses `execCommand('copy')` to copy to clipboard
 
-        // changes the button text when "copied" and to "copy" after 5 seconds
-        cpy_btn.innerHTML = "copied !";
+            const temp = document.createElement('textarea');
+            temp.value = text
+            temp.style.position = 'fixed'
+            temp.style.opacity = '0'
+            document.body.appendChild(temp)                                                                                             
+            temp.select()
+            document.execCommand('copy')
+            document.body.removeChild(temp)
+        }
 
         setTimeout( () => {
             cpy_btn.innerHTML = "copy";
