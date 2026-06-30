@@ -1,8 +1,8 @@
+version: '3.8'
+
 services:
   yeetify:
     build: .
+    container_name: yeetify
     network_mode: host
-    volumes:
-      - ./uploads:/app/uploads
-      - ./messages:/app/messages
     restart: unless-stopped
