@@ -1,0 +1,8 @@
+services:
+  yeetify:
+    build: .
+    network_mode: host
+    volumes:
+      - ./uploads:/app/uploads
+      - ./messages:/app/messages
+    restart: unless-stopped
