@@ -50,6 +50,14 @@ Once started, access the web interface at `http://localhost:8000` or from anothe
 
 ## Running with ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white) !
 
+### Run Directly from Docker Hub 🐳
+You can pull and run the pre-built image directly from Docker Hub:
+```bash
+docker run -d --name yeetify --network host praw56/yeetify:v1.0
+```
+ 
+ **OR** 
+
 ### 1. Build the Docker Image 
 ```bash
 docker build -t yeetify .
@@ -60,6 +68,7 @@ To host the container manually, run it with host networking:
 ```bash
 docker run -d --name yeetify --network host yeetify
 ```
+
 
 ---
 
