@@ -21,7 +21,7 @@ Yeetify is a simple, lightweight, and real-time local network file- and text-sha
 
 ---
 
-## Running Locally
+## Running Locally 💻
 
 Follow these steps to run Yeetify directly on your machine:
 
@@ -48,9 +48,9 @@ Once started, access the web interface at `http://localhost:8000` or from anothe
 
 ---
 
-## Running with Docker
+## Running with ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white) !
 
-### 1. Build the Docker Image <img src="attachments/docker-icon.png" alt="docker-icon" height="20" style="vertical-align: middle;">
+### 1. Build the Docker Image 
 ```bash
 docker build -t yeetify .
 ```
